@@ -11,9 +11,14 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
+    "@nuxtjs/auth": "^4.9.0",
+    "@nuxtjs/axios": "^5.3.6",
     "ant-design-vue": "^1.1.10",
-    "@nuxtjs/axios": "^5.3.6"
+    "bootstrap-css-only": "^4.3.1",
+    "node-sass": "^4.13.1",
+    "nuxt": "^2.0.0",
+    "sass-loader": "^8.0.2",
+    "sweetalert2": "^9.7.2"
   },
   "devDependencies": {}
 }

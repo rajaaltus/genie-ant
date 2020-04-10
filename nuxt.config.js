@@ -12,7 +12,9 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,700i" },
+      { rel: "stylesheet", href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" }
     ]
   },
   /*
@@ -23,8 +25,10 @@ export default {
   ** Global CSS
   */
   css: [
-    'ant-design-vue/dist/antd.css'
+    'ant-design-vue/dist/antd.css',
+    '@/assets/scss/styles.scss',
   ],
+  
   /*
   ** Plugins to load before mounting the App
   */
@@ -42,12 +46,36 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { 
+            headers: {'Content-type': 'application/json' },
+            url: '/auth/local', 
+            method: 'post',
+            propertyName: 'jwt'
+          },
+          logout: false,
+          user: { 
+            headers: {'Content-type': 'application/json' },
+            url: '/users/me', 
+            method: 'get', 
+            propertyName: false
+          }
+        },
+        tokenType: 'Bearer',
+      }
+    }
+  },
   axios: {
+    baseURL: 'http://site1.localhost'
   },
   /*
   ** Build configuration
