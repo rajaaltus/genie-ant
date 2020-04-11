@@ -7,7 +7,11 @@
     </a-layout-content>
   </a-layout>
 </template>
-
+<script>
+export default {
+  auth: false
+}
+</script>
 <style scoped>
 .fullscreen {
   position: fixed;

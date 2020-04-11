@@ -22,116 +22,66 @@
       </div>
       <div class="form">
         <p class="formTitle">Please register</p>
-        <a-form class="login-form" :form="form">
-          <a-form-item>
-            <a-select default-value="1">
-              <a-select-option value="1">
+        <a-form-model 
+          ref="register"
+          :model="register"
+          :rules="rules"
+          class="login-form"
+        >
+          <a-form-model-item  prop="userType">
+            <a-select v-model="register.userType" placeholder="please select your zone">
+              <a-select-option value="shanghai">
                 Faculty / Staff
               </a-select-option>
-              <a-select-option value="2">
+              <a-select-option value="beijing">
                 Student
               </a-select-option>
             </a-select>
-          </a-form-item>
-          <a-form-item v-bind="formItemLayout">
+          </a-form-model-item>
+
+          <a-form-model-item ref="email" prop="email">
             <a-input
+             v-model="register.email"
               placeholder="Email Address"
-              v-decorator="[
-                'email',
-                {
-                  rules: [{
-                      type: 'email',
-                      message: 'The input is not valid E-mail!',
-                    },
-                    {
-                      required: true,
-                      message: 'Please input your E-mail!',
-                    },
-                  ],
-                },
-              ]"
+              @blur="() => {$refs.email.onFieldBlur()}"
             >
             <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25);"/>
             </a-input>
-          </a-form-item>
-          <a-form-item v-bind="formItemLayout" has-feedback>
-            <a-input
-              placeholder="Password"
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your password!',
-                    },
-                    {
-                      validator: validateToNextPassword,
-                    },
-                  ],
-                },
-              ]"
-              type="password"
-            >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);"/>
-            </a-input>
-          </a-form-item>
-          <a-form-item v-bind="formItemLayout"  has-feedback>
-            <a-input
-              placeholder="Confirm Password"
-              v-decorator="[
-                'confirm',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please confirm your password!',
-                    },
-                    {
-                      validator: compareToFirstPassword,
-                    },
-                  ],
-                },
-              ]"
-              type="password"
-              @blur="handleConfirmBlur"
-            >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);"/>
-            </a-input>
-          </a-form-item>
- 
-          <a-form-item>
+          </a-form-model-item>
 
+          <a-form-model-item  has-feedback prop="password">
             <a-input
+              v-model="register.password"
+              placeholder="Password"
+              autocomplete="off"
+              type="password"
+            >
+            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);"/>
+            </a-input>
+          </a-form-model-item>
+         
+          <a-form-model-item ref="employee_id" prop="employee_id">
+            <a-input
+              v-model="register.employee_id"
               placeholder="Login Id / Employee Id"
-              v-decorator="['username', {rules: [{ required: true, message: 'Please input your username!' }]}]"
             >
               <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25);"/>
             </a-input>
-          </a-form-item>
-          <a-form-item>
+          </a-form-model-item>
+
+          <a-form-model-item>
             <a-select 
               showSearch
               placeholder="Select your Department"
               optionFilterProp="children"
               :filterOption="filterOption"
-              
             >
             <a-select-option v-for="d in departments" :key="d.id">{{d.name}}</a-select-option>
             </a-select>
-          </a-form-item>
-          <a-form-item>
-            <a-checkbox
-              v-decorator="['remember', { valuePropName: 'checked', initialValue: true,}]"
-            >Remember me</a-checkbox>
-            <a
-              class="pull-right text-primary"
-              style="line-height: 39px;"
-              href="javascript: void(0);"
-            >Forgot password?</a>
-          </a-form-item>
+          </a-form-model-item>
+          
           <div class="form-actions">
-            <a-button type="primary" htmlType="submit" class="login-form-button">Register</a-button>
+            <a-button type="primary" htmlType="submit" class="login-form-button" @click="onSubmit">Register</a-button>
             <span class="ml-3 register-link">
               <nuxt-link
                 to="/login"
@@ -139,7 +89,7 @@
               >Login</nuxt-link> if you have account
             </span>
           </div>
-        </a-form>
+        </a-form-model>
       </div>
     </div>
     <footer class="footer">
@@ -166,18 +116,34 @@
 
 <script>
 import { mapState } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   layout: 'register',
-  data: function () {
+  auth: false,
+  data() {
     return {
       form: this.$form.createForm(this),
       backgroundNumber: 1,
       confirmDirty: false,
+      
+      register: {
+        userType: '',
+        email: '',
+        password: '',
+        employee_id: '',
+        department: null
+      },
+      
+      rules: {
+        userType: [{ required: true, message: 'Please select your designation', trigger: 'blur' }],
+        email: [{ required: true, type: 'email', message: 'Enter valid email', trigger: 'change' }],
+        password: [{ required: true, message: 'Please enter your password', trigger: 'blur' }],
+        employee_id: [{ required: true, message: 'Please enter your employee id', trigger: 'blur' }],
+        department: [{ required: true, message: 'Please select your department', trigger: 'change' }],
+      }
     }
   },
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'register' });
-  },
+  
   computed: {
     ...mapState({
       departments: state => state.user.departments.result
@@ -187,6 +153,19 @@ export default {
      await store.dispatch('user/getAllDepartment');
   },
   methods: {
+    onSubmit() {
+      this.$refs.registerForm.validate(valid => {
+        if (valid) {
+          Swal.fire('submit!');
+        } else {
+          console.log('error submit!!');
+          Swal.fire("Validate first");
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.registerForm.resetFields();
+    },
     changeBackground() {
       if (this.backgroundNumber === 5) {
         this.backgroundNumber = 1

@@ -15,27 +15,27 @@
         <a-divider dashed />
         <a-menu-item key="1">
           <a-icon type="pie-chart" />
-          <span>Dashboard</span>
+          <span><nuxt-link to="/admin">Dashboard</nuxt-link></span>
         </a-menu-item>
         <a-sub-menu key="sub2">
           <span slot="title"><a-icon type="pic-left" /><span>Departments</span></span>
-          <a-menu-item key="6">About</a-menu-item>
-          <a-menu-item key="7">Patient Care Activities</a-menu-item>
-          <a-menu-item key="8">HRD</a-menu-item>
-          <a-menu-item key="9">Faculty / Staff</a-menu-item>
+          <a-menu-item key="6"><nuxt-link to="/admin/departments">About</nuxt-link></a-menu-item>
+          <a-menu-item key="7"><nuxt-link to="/admin/departments/patient-care">Patient Care Activities</nuxt-link></a-menu-item>
+          <a-menu-item key="8"><nuxt-link to="/admin/departments/hrd">HRD</nuxt-link></a-menu-item>
+          <a-menu-item key="9"><nuxt-link to="/admin/departments/faculty">Faculty / Staff</nuxt-link></a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub3">
           <span slot="title"><a-icon type="star" /><span>Activities &amp; Resources</span></span>
-          <a-menu-item key="10">Faculty / Staff</a-menu-item>
-          <a-menu-item key="11">Students</a-menu-item>
+          <a-menu-item key="10"><nuxt-link to="/admin/activities/faculties">Faculty / Staff</nuxt-link></a-menu-item>
+          <a-menu-item key="11"><nuxt-link to="/admin/activities/students">Students</nuxt-link></a-menu-item>
         </a-sub-menu>
         <a-menu-item key="sub4">
           <a-icon type="check" />
-          <span>Approval Status</span>
+          <span><nuxt-link to="/admin/approvals">Approval Status</nuxt-link></span>
         </a-menu-item>
         <a-menu-item key="sub5">
           <a-icon type="desktop" />
-          <span>Reports</span>
+          <span><nuxt-link to="/admin/reports">Reports</nuxt-link></span>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>

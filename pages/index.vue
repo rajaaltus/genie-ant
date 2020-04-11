@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
+middleware: 'auth'
 export default {
-	middleware: 'auth'
 }
 </script>
