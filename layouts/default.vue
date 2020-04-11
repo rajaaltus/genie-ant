@@ -1,12 +1,16 @@
 <template>
-  <a-layout class="sider">
+  <a-layout id="components-layout-demo-side" style="min-height: 100vh">
+    <a-layout-sider collapsible v-model="collapsed">
+      <div class="logo" />
       <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
         <a-divider dashed />
-         <a-sub-menu key="sub1">
+          <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="user" /><span>User Name</span></span>
-          <a-menu-item key="3">User Profile</a-menu-item>
-          <a-menu-item key="4">Settings</a-menu-item>
-          <a-menu-item key="5">Logout</a-menu-item>
+          <a-menu-item key="3"><nuxt-link to="/admin/user-profile"> User Profile</nuxt-link></a-menu-item>
+          <a-menu-item key="4"><nuxt-link to="/admin/settings">Settings</nuxt-link></a-menu-item>
+          <a-menu-item key="5">
+               <a-button type="link" @click="$auth.logout()">Logout</a-button>
+          </a-menu-item>
         </a-sub-menu>
         <a-divider dashed />
         <a-menu-item key="1">
@@ -34,39 +38,34 @@
           <span>Reports</span>
         </a-menu-item>
       </a-menu>
-      <a-layout>
-        <a-layout-header style="background: #fff; padding: 0" />
-        <a-layout-content style="margin: 0 16px">
-            <nuxt />
-        </a-layout-content>
-        <a-layout-footer style="text-align: center">
-          Ant Design ©2018 Created by Ant UED
-        </a-layout-footer>
-      </a-layout>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header style="background: #fff; padding: 0" />
+      <a-layout-content style="margin: 0 16px">
+        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }" class="mt-4">
+          <nuxt />
+        </div>
+      </a-layout-content>
+      <a-layout-footer style="text-align: center">
+        Ant Design ©2018 Created by Ant UED
+      </a-layout-footer>
+    </a-layout>
   </a-layout>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        collapsed: false,
-      };
-    },
-
-  };
+export default {
+  data() {
+    return {
+      collapsed: false,
+    };
+  },
+};
 </script>
 
 <style>
-  .logo {
-  height: 64px;
-  overflow: hidden;
-  }
-  .logoContainer {
-  height: 64px;
-  padding: 13px 20px 15px 22px;
-  }
-  .logoContainer img {
-    height: 36px;
-  }
+#components-layout-demo-side .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
 </style>
- 

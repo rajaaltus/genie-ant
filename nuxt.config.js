@@ -28,7 +28,9 @@ export default {
     'ant-design-vue/dist/antd.css',
     '@/assets/scss/styles.scss',
   ],
-  
+  router: {
+    middleware: ['auth']
+  },
   /*
   ** Plugins to load before mounting the App
   */

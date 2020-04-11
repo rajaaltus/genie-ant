@@ -11,7 +11,7 @@
 <style scoped>
 .fullscreen {
   position: fixed;
-  z-index: 10000;
+  z-index: 100;
   top: 0;
   left: 0;
   height: 100vh;
